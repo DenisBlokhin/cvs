@@ -10,7 +10,14 @@ jobs:
         uses: xu-cheng/latex-action@v2
         with:
           root_file: cvs.tex
-      - uses: actions/upload-artifact@v2
+      - name: Artifacts
+        uses: actions/upload-artifact@v2
+        if: github.ref == 'refs/heads/master'
         with:
           name: PDF
           path: cvs.pdf
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: cvs.pdf
